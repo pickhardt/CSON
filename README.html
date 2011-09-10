@@ -1,0 +1,78 @@
+<html>
+  <head>
+    <style type="text/css">
+      textarea {
+        float: left;
+        margin: 0px 10px;
+        min-height: 500px;
+        width: 300px;
+      }
+    </style>
+    <script type="text/javascript" src="concatenation.js"></script>
+    <script type="text/javascript" src="lib/json2.js"></script>
+    <script type="text/javascript">
+      var _last_updated_with = "";
+      function update() {
+        if (document.getElementById("json") &&
+            document.getElementById("cson")) {
+          
+            var myJson = document.getElementById("json").value;
+            var jsonPassed = false;
+            if (_last_updated_with != myJson) {
+              _last_updated_with = myJson;
+              try {
+                var myObject = JSON.parse(myJson);
+                jsonPassed = true;
+              } catch(error) {
+                document.getElementById("cson").innerHTML = "JSON.parse error: " + error;
+              }
+              if (jsonPassed) {
+                try {
+                  var myCson = CSON.stringify(myObject);
+                } catch(error) {
+                  document.getElementById("cson").innerHTML = "CSON.stringify error: " + error;
+                }
+              }
+              document.getElementById("cson").innerHTML = myCson;
+            }
+        }
+        setTimeout(update, 250);
+      }
+    </script>
+  </head>
+  <body>
+    <h1>CSON emitter README.html</h1>
+    <h2>JSON on the left, CSON on the right</h2>
+    <textarea id="json">{
+  "accounting" : [ 
+    {
+      "firstName" : "John",
+      "lastName" : "Doe",
+      "age" : 23
+    },
+    {
+      "firstName" : "Mary", 
+      "lastName" : "Smith",
+      "age" : 32
+    }
+  ], 
+  "sales" : [ 
+    {
+      "firstName" : "Sally", 
+      "lastName" : "Green",
+      "age" : 27
+    },
+    {
+      "firstName" : "Jim", 
+      "lastName" : "Galley",
+      "age" : 41
+    }
+  ]
+}</textarea>
+    <textarea id="cson">
+    </textarea>
+    <script type="text/javascript">
+      update();
+    </script>
+  </body>
+</html>
